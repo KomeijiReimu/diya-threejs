@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f8f9f6" />
+    <meta name="description" content="旋转、放大笛亚的三维角色模型，并与四视设定图并排观察。" />
+    <title>笛亚 · 角色图录</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath fill='%231a4548' d='M3 9 37 4 25 36Z'/%3E%3Cpath fill='%2375d5c4' d='m9 12 21-3-9 10Z'/%3E%3Cpath fill='%23379d91' d='m24 20 7-9-6 17Z'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="i-compare" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3m0 12 5-5m-5 5-5-5M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14m-7-7v14"/></symbol>
+      <symbol id="i-fit" viewBox="0 0 24 24"><path d="M3 8V5a2 2 0 0 1 2-2h3m8 0h3a2 2 0 0 1 2 2v3m0 8v3a2 2 0 0 1-2 2h-3m-8 0H5a2 2 0 0 1-2-2v-3"/></symbol>
+      <symbol id="i-mouse" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="7"/><path d="M12 6v4"/></symbol>
+      <symbol id="i-face" viewBox="0 0 24 24"><ellipse cx="12" cy="10" rx="5" ry="6"/><path d="M4 21c1.3-3.5 4.1-5 8-5s6.7 1.5 8 5"/></symbol>
+    </svg>
+    <header class="masthead">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M3 9 37 4 25 36Z" fill="#20494b"/><path d="m8.8 12.2 21.7-3.3-9.3 10.6z" fill="#a1e1d1"/><path d="m23.5 20.8 8.1-9.7-6.9 18.1z" fill="#52b9a8"/><path d="m9.8 13.6 10.8 7.6 2.8 8z" fill="#e4f4e9"/></svg>
+        <span class="brand-name">角色图录</span>
+        <span class="brand-latin" lang="en">CHARACTER ARCHIVE</span>
+      </div>
+      <div class="actions">
+        <button id="compare" class="action compare" type="button" aria-pressed="false" aria-controls="reference" title="并排查看模型和原始参考图"><svg class="icon" aria-hidden="true"><use href="#i-compare"/></svg><span>参考对照</span></button>
+        <a class="action download" id="download" href="./diya.glb" download="笛亚.glb"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg><span>下载模型</span></a>
+      </div>
+    </header>
+    <main class="workspace">
+      <section class="stage" aria-labelledby="model-title">
+        <div class="identity">
+          <div class="eyebrow" lang="en"><span></span> MODEL STUDY <b>/</b> 01</div>
+          <h1 id="model-title">笛亚</h1>
+          <div class="roman-name" lang="en">Diya</div>
+        </div>
+        <div class="view-readout" aria-hidden="true"><span class="readout-dot"></span><span id="current-view">正面</span><span class="readout-slash">/</span>正交视图</div>
+        <div class="panes">
+          <div class="model-pane" id="model-pane">
+            <div id="canvas-host"></div>
+            <div class="notice" id="notice" role="status"><span class="loader" aria-hidden="true"></span><strong id="notice-title">正在载入模型</strong><span id="notice-detail"></span><button id="retry" type="button" hidden>重新载入</button></div>
+          </div>
+          <figure class="reference" id="reference" hidden>
+            <figcaption><span class="ref-index" lang="en">REF.</span><span id="ref-caption">正视图</span></figcaption>
+            <div class="ref-sheet"><img id="reference-image" alt="笛亚正视设定图"/><p id="ref-error" hidden>参考图未能载入</p></div>
+          </figure>
+        </div>
+        <div class="stage-bottom">
+          <div class="gesture" aria-hidden="true"><svg class="icon"><use href="#i-mouse"/></svg><span>拖动旋转</span><i></i><span class="pointer-hint">滚轮缩放</span><span class="touch-hint">双指缩放</span></div>
+          <div class="camera-tools" role="group" aria-label="取景与缩放">
+            <button type="button" id="face" title="观察面部" disabled><svg class="icon" aria-hidden="true"><use href="#i-face"/></svg><span>面部</span></button>
+            <button type="button" id="fit" title="全身适配（F）" disabled><svg class="icon" aria-hidden="true"><use href="#i-fit"/></svg><span>全身</span></button>
+            <i></i>
+            <button type="button" id="zoom-out" aria-label="缩小" title="缩小（−）" disabled><svg class="icon" aria-hidden="true"><use href="#i-minus"/></svg></button>
+            <output id="zoom" aria-label="缩放比例" aria-live="off">100%</output>
+            <button type="button" id="zoom-in" aria-label="放大" title="放大（+）" disabled><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg></button>
+          </div>
+        </div>
+        <button id="show-transport" type="button" aria-label="显示播放控制" aria-expanded="false" aria-controls="transport" hidden><span>显示播放控制</span></button>
+        <section id="transport" class="transport" aria-label="放映控制" hidden>
+          <div class="transport-heading"><div><span id="show-index">动作放映</span><strong id="show-title"></strong></div><output id="show-time" aria-live="off"></output></div>
+          <progress id="show-progress" aria-label="播放进度" value="0" max="21"></progress>
+          <div class="transport-actions">
+            <button id="show-toggle" type="button">暂停</button><button id="show-restart" type="button">从头播放</button>
+            <button id="show-hide" type="button">收起</button><button id="show-exit" type="button">退出放映</button>
+          </div>
+        </section>
+      </section>
+      <div class="view-bar">
+        <div class="view-bar-label"><span class="cross" aria-hidden="true"></span><span id="views-heading">观察视角</span></div>
+        <div class="views" role="group" aria-labelledby="views-heading">
+          <button type="button" data-view="front" aria-pressed="true" disabled>正面</button>
+          <button type="button" data-view="side" aria-pressed="false" title="右侧视图（+X）" disabled>侧面</button>
+          <button type="button" data-view="back" aria-pressed="false" disabled>背面</button>
+          <button type="button" data-view="top" aria-pressed="false" disabled>俯视</button>
+          <button type="button" data-view="quarter" aria-pressed="false" title="四分之三视角" disabled>斜侧</button>
+        </div>
+        <div class="motion-strip" role="group" aria-label="动作放映">
+          <label for="clip-choice">动作放映<small>点画面可显示控制</small></label>
+          <select id="clip-choice" disabled>
+            <option value="breathe">呼吸</option><option value="greet">招手</option><option value="bow">行礼</option><option value="exchange">空间契约·交换</option>
+          </select>
+          <button id="play-clip" type="button" aria-label="播放所选动作" title="播放所选动作，点画面显示控制" disabled>播放</button>
+          <button id="play-all" type="button" title="按顺序播放全部动作；点画面显示控制，Esc 退出" disabled><span aria-hidden="true">▷</span> 全部连播 <small>21s</small></button>
+        </div>
+      </div>
+    </main>
+    <footer class="viewer-credit">build with opencode + omo-slim. 使用经验：<a href="https://blog.komeijireimu.top/" target="_blank" rel="noopener noreferrer">https://blog.komeijireimu.top/</a> · <a href="https://github.com/KomeijiReimu/diya-threejs" target="_blank" rel="noopener noreferrer">源码</a></footer>
+    <noscript><p class="no-script">请启用 JavaScript 以查看三维模型，或使用上方按钮下载模型。</p></noscript>
+    <script type="module" src="/src/viewer.js"></script>
+  </body>
+</html>
