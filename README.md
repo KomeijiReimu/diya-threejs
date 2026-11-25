@@ -12,6 +12,18 @@ cd diya-threejs
 bun run start
 ```
 
-在浏览器打开终端显示的地址，默认为 <http://127.0.0.1:4173>。
+在浏览器打开终端显示的地址，默认为 [http://127.0.0.1:4173](http://127.0.0.1:4173)。
 
 [下载带四段骨骼动画的 GLB 模型](https://github.com/KomeijiReimu/diya-threejs/raw/refs/heads/main/public/diya.glb)
+
+
+[部分提示词](docs/部分提示词.md)
+
+
+工作时截图
+
+![1795602471298](image/README/1795602471298.png)
+
+总耗费 token
+
+![1795602535024](image/README/1795602535024.png)
